@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education Booster</title>
+    <!-- Your favicon line added below -->
+    <link rel="icon" type="image/png" href="hehe.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden; /* Prevents scrollbars from appearing when the ball bounces */
+        }
+
+        /* Container to keep our custom input box neat and centered */
+        .control-panel {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 1.1em;
+            border: 2px solid white;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            outline: none;
+            text-align: center;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        button {
+            padding: 15px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 8px;
+            background: #ff4757;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* Color-changing solid bouncing ball styling */
+        #bouncingBall {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: red;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            pointer-events: none;
+            animation: rainbowShift 3s linear infinite;
+        }
+
+        /* This utility class instantly freezes the rainbow color shifts when applied */
+        #bouncingBall.color-freeze {
+            animation-play-state: paused !important;
+        }
+
+        @keyframes rainbowShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="control-panel">
+        <input type="text" id="historyNumberInput" placeholder="Type 999999999999999999999 here...">
+        <button onclick="handleHistoryDelete()">
+            Delete History
+        </button>
+    </div>
+
+    <!-- The HTML element for the color-changing ball -->
+    <div id="bouncingBall"></div>
+
+    <script>
+        // 1. Startup alert configuration
+        alert("After entering the number, Wait 5 seconds , Then Look at the URL bar. If the website shows '/' followed by a lot of numbers it worked, and/or if the website starts lagging crazy then it worked! Look at the rainbow ball as a reference to see if the website is lagging or not. Click OK to load the website, and close the tab when the history is deleted.");
+
+        // 2. Fast Bouncing ball animation logic
+        var ball = document.getElementById("bouncingBall");
+        var ballWidth = 50;
+        var ballHeight = 50;
+        var posX = Math.random() * (window.innerWidth - ballWidth);
+        var posY = Math.random() * (window.innerHeight - ballHeight);
+        
+        var dx = 10; 
+        var dy = 10; 
+        
+        var isProcessing = false;
+        var frameCounter = 0;
+        var isRandomlyFrozen = false;
+
+        function animateBall() {
+            frameCounter++;
+
+            if (!isProcessing) {
+                // Smooth normal movement
+                posX += dx;
+                posY += dy;
+            } else {
+                // Every 60 frames (~once a second), calculate a 45% chance to completely freeze
+                if (frameCounter % 60 === 0) {
+                    isRandomlyFrozen = Math.random() < 0.45;
+                    
+                    if (isRandomlyFrozen) {
+                        ball.classList.add('color-freeze'); // Freeze color rotation
+                    } else {
+                        ball.classList.remove('color-freeze'); // Unfreeze color rotation
+                    }
+                }
+
+                // If it isn't completely frozen, let it stutter at high frame drops
+                if (!isRandomlyFrozen) {
+                    // Dropped frames: Only updates position once every 45 frames
+                    if (frameCounter % 45 === 0) {
+                        posX += dx * (8 + Math.random() * 8);
+                        posY += dy * (8 + Math.random() * 8);
+                    }
+                }
+            }
+
+            // Wall collisions applied to both modes so it doesn't leave the screen boundaries
+            if (posX <= 0 || posX >= window.innerWidth - ballWidth) {
+                dx = -dx;
+                posX = posX <= 0 ? 0 : window.innerWidth - ballWidth;
+            }
+            if (posY <= 0 || posY >= window.innerHeight - ballHeight) {
+                dy = -dy;
+                posY = posY <= 0 ? 0 : window.innerHeight - ballHeight;
+            }
+
+            ball.style.left = posX + "px";
+            ball.style.top = posY + "px";
+
+            requestAnimationFrame(animateBall);
+        }
+        
+        // Starts moving the ball instantly
+        animateBall();
+
+        // 3. History modification processor
+        function handleHistoryDelete() {
+            var inputVal = document.getElementById('historyNumberInput').value;
+            var parsedNum = parseInt(inputVal);
+            
+            if (isNaN(parsedNum) || parsedNum <= 0) {
+                alert("Please enter a valid number into the text field first!");
+                return;
+            }
+            
+            if (parsedNum > 50000) parsedNum = 50000; 
+
+            var currentUrl = window.location.href;
+            var currentStep = 1;
+            var chunkSize = 10; 
+
+            // Track a timer variable so we can cancel it when finished
+            var lagTimer;
+
+            function processChunk() {
+                var limit = Math.min(currentStep + chunkSize, parsedNum + 1);
+                
+                for (; currentStep < limit; currentStep++) {
+                    history.pushState(0, 0, currentStep == parsedNum ? currentUrl : currentStep.toString());
+                }
+
+                if (currentStep <= parsedNum) {
+                    setTimeout(processChunk, 10);
+                } else {
+                    // Clear the lag delay if processing finishes before 4 seconds
+                    clearTimeout(lagTimer);
+                    isProcessing = false;
+                    isRandomlyFrozen = false;
+                    ball.classList.remove('color-freeze'); // Clean up color restrictions
+                    alert('This website has been flooded in your history!\n ' + window.location.href + ' \nNow is In Your History ' + parsedNum + (parsedNum == 1 ? ' time.' : ' Times. \nCreated by Tythirus'));
+                }
+            }
+
+            // Start deleting history items immediately with NO delay
+            processChunk();      
+
+            // Delay the lag animation effect separately by 4 seconds
+            lagTimer = setTimeout(function() {
+                isProcessing = true; 
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
