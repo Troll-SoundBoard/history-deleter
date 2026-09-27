@@ -1,220 +1,663 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Education Booster</title>
-    <!-- Your favicon line added below -->
-    <link rel="icon" type="image/png" href="hehe.png">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            overflow: hidden; /* Prevents scrollbars from appearing when the ball bounces */
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* Container to keep our custom input box neat and centered */
-        .control-panel {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 30px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-width: 400px;
-        }
+<title>Education Booster</title>
 
-        input {
-            padding: 12px;
-            font-size: 1.1em;
-            border: 2px solid white;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            outline: none;
-            text-align: center;
-        }
+<link rel="icon" type="image/png" href="hehe.png">
 
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        button {
-            padding: 15px 40px;
-            font-size: 1.3em;
-            border: none;
-            border-radius: 8px;
-            background: #ff4757;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
-        }
-        
-        button:hover {
-            transform: scale(1.05);
-        }
-        
-        button:active {
-            transform: scale(0.95);
-        }
+<style>
 
-        /* Color-changing solid bouncing ball styling */
-        #bouncingBall {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: red;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            pointer-events: none;
-            animation: rainbowShift 3s linear infinite;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        /* This utility class instantly freezes the rainbow color shifts when applied */
-        #bouncingBall.color-freeze {
-            animation-play-state: paused !important;
-        }
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:'Segoe UI',sans-serif;
+    color:white;
+}
 
-        @keyframes rainbowShift {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-    </style>
+/* ======================
+   HERO SECTION
+====================== */
+
+.hero-container{
+    width:100vw;
+    height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 10%;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.35),
+        rgba(0,0,0,.35)
+    ),
+    url('bgg.png') center center/cover no-repeat;
+
+    transition:0.3s;
+}
+
+.body-overlay-active .hero-container{
+    filter:brightness(.35);
+}
+
+/* ======================
+   NAVBAR
+====================== */
+
+.navbar{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 7%;
+
+    backdrop-filter:blur(12px);
+
+    background:rgba(15,23,42,.18);
+
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.nav-logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.nav-logo img{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid rgba(255,255,255,.25);
+}
+
+.nav-logo span{
+    font-size:1.25rem;
+    font-weight:700;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:white;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    transition:.3s;
+
+    font-size:.95rem;
+    font-weight:500;
+
+    cursor:pointer;
+
+    position:relative;
+}
+
+.nav-links a:hover{
+    background:rgba(87,197,182,.15);
+    color:#57c5b6;
+}
+
+.nav-links a::after{
+    content:'';
+    position:absolute;
+    bottom:5px;
+    left:50%;
+
+    width:0;
+    height:2px;
+
+    transform:translateX(-50%);
+
+    background:#57c5b6;
+
+    transition:.3s;
+}
+
+.nav-links a:hover::after{
+    width:70%;
+}
+
+/* ======================
+   LOGO SECTION
+====================== */
+
+.logo-section{
+    flex:1;
+}
+
+.large-circle-logo{
+    width:300px;
+    height:300px;
+
+    border-radius:50%;
+    overflow:hidden;
+
+    border:12px solid rgba(255,255,255,.9);
+
+    box-shadow:0 25px 50px rgba(0,0,0,.4);
+}
+
+.logo-image{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* ======================
+   CONTENT SECTION
+====================== */
+
+.content-section{
+    flex:1.2;
+}
+
+.content-section h1{
+    font-size:3rem;
+    max-width:650px;
+
+    line-height:1.2;
+    margin-bottom:1rem;
+
+    text-shadow:0 2px 10px rgba(0,0,0,.5);
+}
+
+.hero-text{
+    max-width:580px;
+    font-size:1.1rem;
+    line-height:1.8;
+    color:#e2e8f0;
+    margin-bottom:2rem;
+}
+
+/* ======================
+   BUTTON
+====================== */
+
+.btn-start{
+    display:inline-flex;
+    align-items:center;
+
+    text-decoration:none;
+
+    background:white;
+    color:#222;
+
+    padding:14px 24px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.btn-start:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+.btn-start::before{
+    content:"+";
+
+    width:20px;
+    height:20px;
+
+    margin-right:10px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+    background:#5cb85c;
+
+    border-radius:4px;
+}
+
+/* ======================
+   SIDE PANEL
+====================== */
+
+.side-panel{
+    position:fixed;
+
+    top:0;
+    right:-450px;
+
+    width:420px;
+    height:100%;
+
+    background:
+    linear-gradient(
+    180deg,
+    #0f172a,
+    #111827
+    );
+
+    z-index:100;
+
+    padding:2rem;
+
+    overflow-y:auto;
+
+    transition:.35s;
+
+    border-left:1px solid rgba(255,255,255,.08);
+
+    box-shadow:-10px 0 40px rgba(0,0,0,.5);
+}
+
+.side-panel.open{
+    right:0;
+}
+
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    margin-bottom:1.2rem;
+    padding-bottom:1rem;
+}
+
+.panel-header h2{
+    color:#57c5b6;
+}
+
+.close-btn{
+    background:none;
+    color:white;
+    border:none;
+    cursor:pointer;
+    font-size:1.5rem;
+}
+
+/* ======================
+   PANEL CONTENT
+====================== */
+
+.fake-section{
+    margin-bottom:2rem;
+}
+
+.fake-section h3{
+    color:#57c5b6;
+    margin-bottom:1rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.fake-stat-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.stat-card{
+    background:#1e293b;
+    padding:15px;
+    border-radius:12px;
+}
+
+.stat-card small{
+    display:block;
+    margin-bottom:5px;
+    color:#94a3b8;
+}
+
+.stat-card span{
+    font-weight:700;
+}
+
+.mock-list-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:#1e293b;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    margin-bottom:10px;
+
+    border-left:4px solid #57c5b6;
+}
+
+.panel-overlay{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.5);
+
+    z-index:90;
+
+    display:none;
+}
+
+.panel-overlay.active{
+    display:block;
+}
+
+/* ======================
+   MOBILE
+====================== */
+
+@media(max-width:900px){
+
+    .navbar{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .hero-container{
+        flex-direction:column;
+        justify-content:center;
+        text-align:center;
+        padding:120px 30px 30px;
+    }
+
+    .content-section{
+        margin-top:2rem;
+    }
+
+    .content-section h1{
+        font-size:2rem;
+    }
+
+    .large-circle-logo{
+        width:220px;
+        height:220px;
+    }
+
+    .side-panel{
+        width:100%;
+        right:-100%;
+    }
+}
+
+</style>
 </head>
+
 <body>
 
-    <div class="control-panel">
-        <input type="text" id="historyNumberInput" placeholder="Type 999999999999999999999 here...">
-        <button onclick="handleHistoryDelete()">
-            Delete History
-        </button>
-    </div>
+<nav class="navbar">
 
-    <!-- The HTML element for the color-changing ball -->
-    <div id="bouncingBall"></div>
+<div class="nav-logo">
+<img src="hehe.png" alt="Logo">
+<span>Education Booster</span>
+</div>
 
-    <script>
-        // 1. Startup alert configuration
-        alert("After entering the number, Wait 5 seconds , Then Look at the URL bar. If the website shows '/' followed by a lot of numbers it worked, and/or if the website starts lagging crazy then it worked! Look at the rainbow ball as a reference to see if the website is lagging or not. Click OK to load the website, and close the tab when the history is deleted.");
+<div class="nav-links">
+<a onclick="openPanel('home')">🏠 Home</a>
+<a onclick="openPanel('about')">📚 About Us</a>
+<a onclick="openPanel('courses')">🎓 Courses</a>
+<a onclick="openPanel('contact')">✉️ Contact</a>
+<a onclick="openPanel('privacy')">🔒 Privacy</a>
+<a onclick="openPanel('resources')">📖 Resources</a>
+</div>
 
-        // 2. Fast Bouncing ball animation logic
-        var ball = document.getElementById("bouncingBall");
-        var ballWidth = 50;
-        var ballHeight = 50;
-        var posX = Math.random() * (window.innerWidth - ballWidth);
-        var posY = Math.random() * (window.innerHeight - ballHeight);
-        
-        var dx = 10; 
-        var dy = 10; 
-        
-        var isProcessing = false;
-        var frameCounter = 0;
-        var isRandomlyFrozen = false;
+</nav>
 
-        function animateBall() {
-            frameCounter++;
+<div class="hero-container">
 
-            if (!isProcessing) {
-                // Smooth normal movement
-                posX += dx;
-                posY += dy;
-            } else {
-                // Every 60 frames (~once a second), calculate a 45% chance to completely freeze
-                if (frameCounter % 60 === 0) {
-                    isRandomlyFrozen = Math.random() < 0.45;
-                    
-                    if (isRandomlyFrozen) {
-                        ball.classList.add('color-freeze'); // Freeze color rotation
-                    } else {
-                        ball.classList.remove('color-freeze'); // Unfreeze color rotation
-                    }
-                }
+<div class="logo-section">
+<div class="large-circle-logo">
+<img src="hehe.png" class="logo-image" alt="Education Booster">
+</div>
+</div>
 
-                // If it isn't completely frozen, let it stutter at high frame drops
-                if (!isRandomlyFrozen) {
-                    // Dropped frames: Only updates position once every 45 frames
-                    if (frameCounter % 45 === 0) {
-                        posX += dx * (8 + Math.random() * 8);
-                        posY += dy * (8 + Math.random() * 8);
-                    }
-                }
-            }
+<div class="content-section">
 
-            // Wall collisions applied to both modes so it doesn't leave the screen boundaries
-            if (posX <= 0 || posX >= window.innerWidth - ballWidth) {
-                dx = -dx;
-                posX = posX <= 0 ? 0 : window.innerWidth - ballWidth;
-            }
-            if (posY <= 0 || posY >= window.innerHeight - ballHeight) {
-                dy = -dy;
-                posY = posY <= 0 ? 0 : window.innerHeight - ballHeight;
-            }
+<h1>Unlock Your Potential Through Free, High Quality Education</h1>
 
-            ball.style.left = posX + "px";
-            ball.style.top = posY + "px";
+<p class="hero-text">
+Access engaging lessons, interactive quizzes, study guides,
+and educational resources designed to help students learn
+confidently and achieve academic success.
+</p>
 
-            requestAnimationFrame(animateBall);
-        }
-        
-        // Starts moving the ball instantly
-        animateBall();
+<a href="signin.html" class="btn-start">
+Start Learning
+</a>
 
-        // 3. History modification processor
-        function handleHistoryDelete() {
-            var inputVal = document.getElementById('historyNumberInput').value;
-            var parsedNum = parseInt(inputVal);
-            
-            if (isNaN(parsedNum) || parsedNum <= 0) {
-                alert("Please enter a valid number into the text field first!");
-                return;
-            }
-            
-            if (parsedNum > 50000) parsedNum = 50000; 
+</div>
 
-            var currentUrl = window.location.href;
-            var currentStep = 1;
-            var chunkSize = 10; 
+</div>
 
-            // Track a timer variable so we can cancel it when finished
-            var lagTimer;
+<div id="panelOverlay"
+class="panel-overlay"
+onclick="closePanel()">
+</div>
 
-            function processChunk() {
-                var limit = Math.min(currentStep + chunkSize, parsedNum + 1);
-                
-                for (; currentStep < limit; currentStep++) {
-                    history.pushState(0, 0, currentStep == parsedNum ? currentUrl : currentStep.toString());
-                }
+<div id="sidePanel" class="side-panel">
 
-                if (currentStep <= parsedNum) {
-                    setTimeout(processChunk, 10);
-                } else {
-                    // Clear the lag delay if processing finishes before 4 seconds
-                    clearTimeout(lagTimer);
-                    isProcessing = false;
-                    isRandomlyFrozen = false;
-                    ball.classList.remove('color-freeze'); // Clean up color restrictions
-                    alert('This website has been flooded in your history!\n ' + window.location.href + ' \nNow is In Your History ' + parsedNum + (parsedNum == 1 ? ' time.' : ' Times. \nCreated by Tythirus'));
-                }
-            }
+<div class="panel-header">
+<h2 id="panelTitle">Information</h2>
+<button class="close-btn" onclick="closePanel()">×</button>
+</div>
 
-            // Start deleting history items immediately with NO delay
-            processChunk();      
+<div id="panelDynamicContent"></div>
 
-            // Delay the lag animation effect separately by 4 seconds
-            lagTimer = setTimeout(function() {
-                isProcessing = true; 
-            }, 2000);
-        }
-    </script>
+</div>
+
+<script>
+
+const panelsData = {
+
+home: `
+<div class="fake-section">
+
+<h3>Welcome</h3>
+
+<div class="fake-stat-row">
+
+<div class="stat-card">
+<small>Courses</small>
+<span>150+</span>
+</div>
+
+<div class="stat-card">
+<small>Practice Quizzes</small>
+<span>500+</span>
+</div>
+
+</div>
+
+<div class="fake-stat-row">
+
+<div class="stat-card">
+<small>Students</small>
+<span>10,000+</span>
+</div>
+
+<div class="stat-card">
+<small>Access</small>
+<span>24/7</span>
+</div>
+
+</div>
+
+<p>
+Education Booster helps students learn through engaging
+online lessons and interactive study tools.
+</p>
+
+</div>
+`,
+
+about: `
+<div class="fake-section">
+
+<h3>About Education Booster</h3>
+
+<p style="line-height:1.8;">
+Education Booster is dedicated to making quality education
+accessible to everyone through free resources, lessons and
+practice activities.
+</p>
+
+</div>
+`,
+
+courses: `
+<div class="fake-section">
+
+<h3>Featured Courses</h3>
+
+<div class="mock-list-item">
+<span>History</span>
+<span>Available</span>
+</div>
+
+<div class="mock-list-item">
+<span>Mathematics</span>
+<span>Available</span>
+</div>
+
+<div class="mock-list-item">
+<span>Science</span>
+<span>Available</span>
+</div>
+
+<div class="mock-list-item">
+<span>Languages</span>
+<span>Available</span>
+</div>
+
+</div>
+`,
+
+contact: `
+<div class="fake-section">
+
+<h3>Contact</h3>
+
+<div class="mock-list-item">
+<span>Website</span>
+<span>education-booster.vercel.app</span>
+</div>
+
+<div class="mock-list-item">
+<span>Support</span>
+<span>eduboost@gmail.com</span>
+`,
+
+privacy: `
+<div class="fake-section">
+
+<h3>Privacy & Security</h3>
+
+<div class="mock-list-item">
+<span>SSL Encryption</span>
+<span>Enabled</span>
+</div>
+
+<div class="mock-list-item">
+<span>Student Privacy</span>
+<span>Protected</span>
+</div>
+
+<div class="mock-list-item">
+<span>Data Sharing</span>
+<span>Restricted</span>
+</div>
+
+</div>
+`,
+
+resources: `
+<div class="fake-section">
+
+<h3>Learning Resources</h3>
+
+<div class="mock-list-item">
+<span>Study Guides</span>
+<span>Free</span>
+</div>
+
+<div class="mock-list-item">
+<span>Practice Quizzes</span>
+<span>Free</span>
+</div>
+
+<div class="mock-list-item">
+<span>Revision Notes</span>
+<span>Free</span>
+</div>
+
+<div class="mock-list-item">
+<span>Progress Tracking</span>
+<span>Coming Soon</span>
+</div>
+
+</div>
+`
+};
+
+function openPanel(sectionKey){
+
+document.getElementById("panelTitle").innerText =
+sectionKey.charAt(0).toUpperCase() +
+sectionKey.slice(1) +
+" Information";
+
+document.getElementById("panelDynamicContent").innerHTML =
+panelsData[sectionKey];
+
+document.getElementById("sidePanel").classList.add("open");
+document.getElementById("panelOverlay").classList.add("active");
+document.body.classList.add("body-overlay-active");
+
+}
+
+function closePanel(){
+
+document.getElementById("sidePanel").classList.remove("open");
+document.getElementById("panelOverlay").classList.remove("active");
+document.body.classList.remove("body-overlay-active");
+
+}
+
+</script>
+
 </body>
 </html>
